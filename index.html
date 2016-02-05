@@ -18,7 +18,10 @@
 		  auth: "basic"
 		});
 		var issues = github.getIssues('Frauklein', 'GithubAPITest');
-		issues.list([], function(err, issues) {
+		console.log(issues);
+		issues.list({}, function(err, issues) {
+			console.log("debug");
+			console.log(err);
 			console.log(issues);
 		});
 	})();
