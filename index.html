@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Github Repo Dashboard</title>
+	<link href="assets/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<script src="node_modules/axios/dist/axios.min.js"></script>
+	<script src="node_modules/base-64/base64.js"></script>
+	<script src="node_modules/es6-promise/dist/es6-promise.min.js"></script>
+	<script src="node_modules/github-api/src/github.js"></script>
+	<script>
+	(function() {
+		var github = new Github({
+		  token: "15c2368920611369e0966ee458f4efa43bc106cf",
+		  auth: "basic"
+		});
+		var issues = github.getIssues('eckyputrady', 'github-repo-dashboard');
+		issues.list([], function(err, issues) {
+			console.log(err);
+			console.log(issues);
+		});
+	})();
+	</script>
+</body>
+</html>
