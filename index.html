@@ -17,7 +17,6 @@
 		});
 		var issues = github.getIssues('eckyputrady', 'github-repo-dashboard');
 		issues.list([], function(err, issues) {
-			console.log(err);
 			console.log(issues);
 		});
 	})();
