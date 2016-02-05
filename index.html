@@ -13,7 +13,7 @@
 	(function() {
 		var github = new Github({
 		  token: "15c2368920611369e0966ee458f4efa43bc106cf",
-		  auth: "basic"
+		  auth: "oauth"
 		});
 		var issues = github.getIssues('eckyputrady', 'github-repo-dashboard');
 		issues.list([], function(err, issues) {
