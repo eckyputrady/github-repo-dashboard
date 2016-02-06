@@ -5,26 +5,65 @@
 	<link href="assets/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-	<script src="node_modules/axios/dist/axios.min.js"></script>
-	<script src="node_modules/base-64/base64.js"></script>
-	<script src="node_modules/es6-promise/dist/es6-promise.min.js"></script>
-	<script src="node_modules/utf8/utf8.js"></script>
-	<script src="node_modules/github-api/src/github.js"></script>
+	<form name="info" action="" method="get">
+		<input type="text" name="username" placeholder="username">
+		<input type="text" name="token" placeholder="Personal API Token">
+		<input type="text" name="repo" placeholder="Repo name">
+		Start: <input type="date" name="start">
+		End: <input type="date" name="end">
+		<input type="button" name="button" value="view" onclick="view(this.form)">
+	</form>
+	<table id="list-issue">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Assignee</th>
+				<th>Status</th>
+				<th>Open Duration</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+	<script src="assets/js/jquery-2.2.0.min.js"></script>
 	<script>
-	(function() {
-		var github = new Github({
-		  username: "frauklein",
-  		password: "besokjadi17",
-		  auth: "basic"
+	function view(form) {
+		console.log('masuk');
+		var user = form.username.value;
+		var token = form.token.value;
+		var repo = form.repo.value;
+		var start = form.start.value;
+		var end = form.end.value;
+		$.ajax({
+			url: 'https://api.github.com/user',
+			data: {
+				username: user,
+			},
+			beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'token ' + token );},
+			method: 'get',
+			success: function(res) {
+				$.ajax({
+					url: 'https://api.github.com/repos/' + user + '/' + repo + '/issues?state=all',
+					method: 'get',
+					success: function(res) {
+						var display = '';
+						jQuery.each(res, function(i, val) {
+							//console.log(val);
+							display += 
+								'<tr>' +
+									'<td>' + val.title + '</td>' +
+									'<td>' + (val.assignee == null ? 'No one assigned' : val.assignee.login) + '</td>' +
+									'<td>' + val.state + '</td>' +
+									'<td>' + 'asdasd' + '</td>' +
+								'<tr>';
+							
+						});
+						$('#list-issue tbody').html(display);
+					}
+				});
+			}
 		});
-		var issues = github.getIssues('Frauklein', 'GithubAPITest');
-		console.log(issues);
-		issues.list({}, function(err, issues) {
-			console.log("debug");
-			console.log(err);
-			console.log(issues);
-		});
-	})();
+	}
 	</script>
 </body>
 </html>
