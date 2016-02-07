@@ -26,13 +26,14 @@
 		</tbody>
 	</table>
 	<script src="assets/js/jquery-2.2.0.min.js"></script>
+	<script src="assets/js/moment.min.js"></script>
 	<script>
 	function view(form) {
 		console.log('masuk');
 		var user = form.username.value;
 		var token = form.token.value;
 		var repo = form.repo.value;
-		var start = form.start.value;
+		var start = moment(form.start.value);
 		var end = form.end.value;
 		$.ajax({
 			url: 'https://api.github.com/user',
@@ -48,13 +49,17 @@
 					success: function(res) {
 						var display = '';
 						jQuery.each(res, function(i, val) {
-							//console.log(val);
+							console.log(val);
+							var openTime = moment(val.created_at);
+							var closeTime = (val.closed_at == null ? moment(): moment(val.closed_at));
+							var duration = moment.duration(closeTime.diff(openTime)).asHours();
+							console.log(duration);
 							display += 
 								'<tr>' +
 									'<td>' + val.title + '</td>' +
 									'<td>' + (val.assignee == null ? 'No one assigned' : val.assignee.login) + '</td>' +
 									'<td>' + val.state + '</td>' +
-									'<td>' + 'asdasd' + '</td>' +
+									'<td>' + Math.floor(duration) + '</td>' +
 								'<tr>';
 							
 						});
