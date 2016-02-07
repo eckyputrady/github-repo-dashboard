@@ -88,7 +88,7 @@
 						console.log(date);
 						
 						jQuery.each(res, function(i, val) {
-							//console.log(val);
+							console.log(val);
 							var openTime = moment(val.created_at);
 							var closeTime = (val.closed_at == null ? moment(): moment(val.closed_at));
 							var duration = moment.duration(closeTime.diff(openTime)).asHours();
@@ -128,7 +128,7 @@
 				function getIssueDetail(val, duration){
 					return '<tr>' +
 						'<td>' + val.title + '</td>' +
-						'<td>' + (val.assignee == null ? 'No one assigned' : val.assignee.login) + '</td>' +
+						'<td>' + (val.assignee == null ? 'none' : '<a href="' + val.assignee.html_url + '" title="' + val.assignee.login + '"><img src="' + val.assignee.avatar_url + '" width="20" alt="' + val.assignee.login + '">') + '</td>' +
 						'<td>' + val.state + '</td>' +
 						'<td>' + Math.floor(duration) + '</td>' +
 					'<tr>';
