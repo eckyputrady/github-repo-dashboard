@@ -7,7 +7,7 @@
 <body>
 	<form name="info" action="" method="get">
 		<input type="text" name="username" placeholder="username">
-		<input type="text" name="token" placeholder="Personal API Token">
+		<input type="text" name="token" placeholder="password">
 		<input type="text" name="repo" placeholder="Repo name">
 		Start: <input type="date" name="start">
 		End: <input type="date" name="end">
@@ -63,11 +63,11 @@
 			data: {
 				username: user,
 			},
-			beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'token ' + token );},
+			beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'Basic ' + btoa(user + ":" + token) );},
 			method: 'get',
 			success: function(res) {
 				$.ajax({
-					url: 'https://api.github.com/repos/' + user + '/' + repo + '/issues?state=all',
+					url: 'https://api.github.com/repos/' + repo + '/issues?state=all',
 					method: 'get',
 					success: function(res) {
 						var issueList = '';
